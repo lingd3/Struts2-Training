@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	
+<struts>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    
+    <package name="struts" extends="struts-default">
+        <action name="upload" class="struts.UploadAction" method="execute">
+            <param name="savePath">/uploadFiles</param> 
+            <result name="success">/success.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+    </package>
+    
+    <package name="struts2" extends="struts-default">
+    	<action name="multiUpload" class="struts.MultiUploadAction" method="execute">
+    		<interceptor-ref name="fileUpload">
+    			<param name="allowedTypes">text/plain,image/png,image/gif,image/jpeg</param>
+    			<param name="maximumSize">20480</param><!-- bytes -->
+    		</interceptor-ref>
+    		
+    		<interceptor-ref name="defaultStack"></interceptor-ref>
+    		<param name="savePath">/uploadMultiFiles</param>
+    		<result name="success">/success2.jsp</result>
+    		<result name="error">//error.jsp</result>
+    		<result name="input">/index2.jsp</result>
+    	</action>
+    </package>
+    
+    <package name="struts.download" extends="struts-default">
+    	<action name="download" class="struts.DownloadAction" method="execute">
+    		<param name="downloadPath">/uploadMultiFiles</param>
+    		<result name="success" type="stream">
+    			<param name="inputName">targetFile</param>
+    			<param name="contentDisposition">attachment;filename=${filename}</param>
+    			<param name="bufferSize">4096</param>
+    		</result>
+    	</action>
+    </package>
+    
+</struts>
+
+
+
+
+
+
+
+
+
+
+
